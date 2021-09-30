@@ -17,4 +17,4 @@ async function main(){
 
 }
 
-main().then(() => console.log("DONE"))
+main().then()
