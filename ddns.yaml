@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ddns
+spec:
+    schedule: "0 * * * *"
+    jobTemplate:
+      spec:
+        template:
+          spec:
+            containers:
+              - name: ddns
+                image: ddns
+                imagePullPolicy: IfNotPresent
+                env:
+                  - name: USERNAME
+                    valueFrom:
+                      secretKeyRef:
+                        name: ddns
+                        key: username
+                        optional: false 
+                  - name: DOMAIN
+                    valueFrom:
+                      secretKeyRef:
+                        name: ddns
+                        key: domain
+                        optional: false 
+                  - name: PASSWORD
+                    valueFrom:
+                      secretKeyRef:
+                        name: ddns
+                        key: password
+                        optional: false
+            restartPolicy: OnFailure
